@@ -1,5 +1,4 @@
-import 'package:hive/hive.dart';
-import 'package:shopping_app/domain/model/product_model.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 part 'hive_model.g.dart';
 
 const cartDbname = 'cartdb';

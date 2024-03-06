@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopping_app/core/products.dart';
@@ -20,7 +19,6 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
         List<ProductModel> products = sampleProducts.getSampleProducts();
 
         if (products.isNotEmpty) {
-          log('checking');
           final cartProducts = await cartService.getDataFromDb();
 
           for (var prod in products) {
@@ -28,10 +26,10 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
               prod.cartStatus = true;
             }
           }
-        }  else {
-          
+          emit(ProductsShowSuccess(produclist: products));
+        } else {
+          emit(ProductsShowSuccess(produclist: products));
         }
-        emit(ProductsShowSuccess(produclist: products));
       } catch (e) {
         emit(ProductsShowFailure(error: 'Error connecting server B01'));
       }
@@ -42,7 +40,6 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
         List<ProductModel> products = sampleProducts.getSampleProducts();
 
         if (products.isNotEmpty) {
-          log('checking');
           final cartProducts = await cartService.getDataFromDb();
 
           for (var prod in products) {

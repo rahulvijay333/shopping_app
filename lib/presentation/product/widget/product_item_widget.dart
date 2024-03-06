@@ -20,7 +20,7 @@ class ProductItemWidget extends StatelessWidget {
     return Card(
       child: Container(
         color: Colors.white,
-        padding: const EdgeInsets.only(left: 10),
+        padding: const EdgeInsets.only(left: 10,right: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -58,7 +58,6 @@ class ProductItemWidget extends StatelessWidget {
             Center(
               child: product.cartStatus == false
                   ? SizedBox(
-                      width: size.width * 0.2,
                       height: 30,
                       child: ElevatedButton(
                           onPressed: () {
@@ -68,23 +67,37 @@ class ProductItemWidget extends StatelessWidget {
                             BlocProvider.of<ProductBloc>(context)
                                 .add(UpdateProducts());
                           },
-                          child: const Text('Add')),
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.add_shopping_cart_outlined,
+                                color: Colors.white,
+                              ),
+                              Text('Add ')
+                            ],
+                          )),
                     )
                   : SizedBox(
-                      width: size.width * 0.25,
                       height: 30,
-                      child: TextButton.icon(
-                          onPressed: () {
-                            BlocProvider.of<CartBloc>(context)
-                                .add(RemoveFromCartEvent(key: product.id));
-                            BlocProvider.of<ProductBloc>(context)
-                                .add(UpdateProducts());
-                          },
-                          icon: const Icon(
-                            Icons.delete,
-                            color: Colors.blue,
-                          ),
-                          label: const Text('remove')),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          BlocProvider.of<CartBloc>(context)
+                              .add(RemoveFromCartEvent(key: product.id));
+                          BlocProvider.of<ProductBloc>(context)
+                              .add(UpdateProducts());
+                        },
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.delete_outline,
+                              color: Colors.white,
+                            ),
+                            Text('Remove')
+                          ],
+                        ),
+                      ),
                     ),
             )
           ],

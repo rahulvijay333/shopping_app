@@ -23,7 +23,13 @@ class ScreenProducts extends StatelessWidget {
                 return const Center(
                   child: CircularProgressIndicator(),
                 );
-              } else if (state is ProductsShowSuccess) {
+              } 
+              
+              else if(state is ProductsShowFailure){
+                return Center(child: Text(state.error),);
+              }
+              
+              else if (state is ProductsShowSuccess) {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -43,7 +49,7 @@ class ScreenProducts extends StatelessWidget {
                     ),
                     Expanded(
                       child: Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(15.0),
                         child: GridView.builder(
                           physics:
                               const BouncingScrollPhysics(), // Enable scrolling physics
@@ -53,7 +59,7 @@ class ScreenProducts extends StatelessWidget {
                             crossAxisCount: 2,
                             mainAxisExtent: size.height * 0.3,
                             crossAxisSpacing:
-                                10.0, // Adjust spacing between items
+                                10.0,
                             mainAxisSpacing: 10.0,
                           ),
                           itemBuilder: (context, index) {
@@ -106,7 +112,7 @@ class CustomAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20),bottomRight: Radius.circular(20) ),
+      borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(20),bottomRight: Radius.circular(20) ),
       child: Container(
         width: size.width,
         height: 90,

@@ -22,36 +22,34 @@ class ScreenMain extends StatelessWidget {
             bottomNavigationBar: ClipRRect(
               borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-              child: Container(
-                child: BottomNavigationBar(
-                    backgroundColor: Colors.blue,
-                    currentIndex: index,
-                    selectedItemColor: Colors.white,
-                    unselectedItemColor: Colors.black,
-                    onTap: (value) {
-                      pageIndexNotifier.value = value;
+              child: BottomNavigationBar(
+                  backgroundColor: Colors.blue,
+                  currentIndex: index,
+                  selectedItemColor: Colors.white,
+                  unselectedItemColor: Colors.black,
+                  onTap: (value) {
+                    pageIndexNotifier.value = value;
 
-                      if (value == 0) {
-                        BlocProvider.of<ProductBloc>(context)
-                            .add(LoadProducts());
-                      } else {
-                        BlocProvider.of<CartBloc>(context)
-                            .add(GetCartItemsEvent());
-                      }
-                    },
-                    items: const [
-                      BottomNavigationBarItem(
-                          icon: Icon(
-                            Icons.home,
-                          ),
-                          label: 'products'),
-                      BottomNavigationBarItem(
-                          icon: Icon(
-                            Icons.shopping_bag,
-                          ),
-                          label: 'shopping cart')
-                    ]),
-              ),
+                    if (value == 0) {
+                      BlocProvider.of<ProductBloc>(context)
+                          .add(LoadProducts());
+                    } else {
+                      BlocProvider.of<CartBloc>(context)
+                          .add(GetCartItemsEvent());
+                    }
+                  },
+                  items: const [
+                    BottomNavigationBarItem(
+                        icon: Icon(
+                          Icons.home,
+                        ),
+                        label: 'products'),
+                    BottomNavigationBarItem(
+                        icon: Icon(
+                          Icons.shopping_bag,
+                        ),
+                        label: 'shopping cart')
+                  ]),
             ),
           );
         });

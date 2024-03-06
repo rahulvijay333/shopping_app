@@ -1,4 +1,3 @@
-
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
@@ -15,12 +14,14 @@ class ScreenCart extends StatelessWidget {
     return Column(
       children: [
         ClipRRect(
-          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20),bottomRight: Radius.circular(20) ),
+          borderRadius: const BorderRadius.only(
+              bottomLeft: Radius.circular(20),
+              bottomRight: Radius.circular(20)),
           child: Container(
             width: size.width,
             height: 90,
             color: Colors.blue,
-            child: Center(
+            child: const Center(
               child: Text(
                 'Cart',
                 style: TextStyle(
@@ -38,7 +39,11 @@ class ScreenCart extends StatelessWidget {
           child: BlocBuilder<CartBloc, CartState>(builder: (context, state) {
             if (state is CartSuccess) {
               if (state.cartlist.isEmpty) {
-                return const Center(child: Text('No products'));
+                return Center(
+                    child: Image.asset(
+                  'assets/empty_cart.png',
+                  width: size.width * 0.6,
+                ));
               }
 
               return Padding(
@@ -61,7 +66,7 @@ class ScreenCart extends StatelessWidget {
                                   fontWeight: FontWeight.bold),
                             ),
                             Text(
-                              '${state.cost.floor()} Rs',
+                              '${state.cost} Rs',
                               style: TextStyle(
                                   fontSize: size.width * 0.04,
                                   fontWeight: FontWeight.w700),

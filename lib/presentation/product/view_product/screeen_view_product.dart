@@ -15,7 +15,7 @@ class ScreenViewProduct extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: Colors.white70,
+     
       appBar: AppBar(
         title: Text(productName),
         centerTitle: true,
@@ -53,8 +53,8 @@ class ScreenViewProduct extends StatelessWidget {
                     return SizedBox(
                       
                       width: double.maxFinite,
-                      height: 30,
-                      child: TextButton.icon(
+                      height: 40,
+                      child: ElevatedButton(
                           onPressed: () {
                             BlocProvider.of<CartBloc>(context)
                                 .add(RemoveFromCartEvent(key: product.id));
@@ -63,15 +63,20 @@ class ScreenViewProduct extends StatelessWidget {
                             BlocProvider.of<ProductBloc>(context)
                                 .add(UpdateProducts());
                           },
-                          icon: const Icon(
-                            Icons.delete,
-                            color: Colors.blue,
+                          child: const Row(mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.delete_outline,
+                                color: Colors.white,
+                              ),
+                              Text('Remove')
+                            ],
                           ),
-                          label: const Text('remove')),
+                         ),
                     );
                   } else {
                     return SizedBox(
-                      
+                      height: 40,
                       width: double.maxFinite,
                       child: ElevatedButton(
                           onPressed: () {
@@ -83,7 +88,15 @@ class ScreenViewProduct extends StatelessWidget {
                             BlocProvider.of<ProductBloc>(context)
                                 .add(UpdateProducts());
                           },
-                          child: const Text('Add to Cart')),
+                          child: const Row(mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.add_shopping_cart_outlined,
+                                color: Colors.white,
+                              ),
+                              Text('Add ')
+                            ],
+                          )),
                     );
                   }
                 }

@@ -14,7 +14,9 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         final item = CartHiveDb(id: event.key, product: event.product);
         cartService.addToCartDb(key: event.key, product: item);
         add(GetCartItemsEvent());
-      } catch (e) {}
+      } catch (e) {
+        emit(CartFailure(error: 'Error happned - B01'));
+      }
     });
 
     on<GetCartItemsEvent>((event, emit) async {
