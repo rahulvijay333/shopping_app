@@ -8,8 +8,12 @@ class CartLoading extends CartState {}
 
 class CartSuccess extends CartState {
   final List<ProductModel> cartlist;
+  final double cost;
 
-  CartSuccess({required this.cartlist});
+  CartSuccess({
+    required this.cartlist,
+    this.cost = 0,
+  });
 }
 
 class CartFailure extends CartState {

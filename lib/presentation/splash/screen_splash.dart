@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shopping_app/application/cart/cart_bloc.dart';
 
 import 'package:shopping_app/application/products/product_bloc.dart';
 import 'package:shopping_app/presentation/main/screen_main.dart';
-import 'package:shopping_app/presentation/product/screen_products.dart';
 
 class ScreenSplash extends StatefulWidget {
   const ScreenSplash({
@@ -18,8 +18,9 @@ class _ScreenSplashState extends State<ScreenSplash> {
   @override
   Widget build(BuildContext context) {
     Future.delayed(const Duration(seconds: 2), () {
+      //-------------------------------------------------load existing data to user 
       BlocProvider.of<ProductBloc>(context).add(LoadProducts());
-
+      BlocProvider.of<CartBloc>(context).add(GetCartItemsEvent());
       Navigator.of(context).pushReplacement(MaterialPageRoute(
         builder: (context) {
           return ScreenMain();
@@ -32,7 +33,7 @@ class _ScreenSplashState extends State<ScreenSplash> {
         body: Container(
           height: double.infinity,
           width: double.infinity,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             color: Colors.blue,
           ),
           child: const Column(

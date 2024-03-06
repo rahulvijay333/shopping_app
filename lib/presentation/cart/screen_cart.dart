@@ -1,10 +1,10 @@
-import 'dart:math';
+
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopping_app/application/cart/cart_bloc.dart';
 import 'package:shopping_app/application/products/product_bloc.dart';
-
 
 class ScreenCart extends StatelessWidget {
   const ScreenCart({super.key});
@@ -13,19 +13,21 @@ class ScreenCart extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Column(
-      
       children: [
-        Container(
-          width: size.width,
-          height: 70,
-          color: Colors.blue,
-          child: Center(
-            child: Text(
-              'View Cart',
-              style: TextStyle(
-                  fontSize: size.width > 500 ? 23 : size.width * 0.05,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w500),
+        ClipRRect(
+          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20),bottomRight: Radius.circular(20) ),
+          child: Container(
+            width: size.width,
+            height: 90,
+            color: Colors.blue,
+            child: Center(
+              child: Text(
+                'Cart',
+                style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w500),
+              ),
             ),
           ),
         ),
@@ -36,7 +38,7 @@ class ScreenCart extends StatelessWidget {
           child: BlocBuilder<CartBloc, CartState>(builder: (context, state) {
             if (state is CartSuccess) {
               if (state.cartlist.isEmpty) {
-                return const Center(child: Text('Cart is empty'));
+                return const Center(child: Text('No products'));
               }
 
               return Padding(
@@ -44,7 +46,7 @@ class ScreenCart extends StatelessWidget {
                 child: Column(
                   children: [
                     ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(10),
                       child: Container(
                         padding: const EdgeInsets.all(10),
                         height: 50,
@@ -53,13 +55,13 @@ class ScreenCart extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              'Total : ',
+                              'Total Bill :',
                               style: TextStyle(
                                   fontSize: size.width * 0.04,
                                   fontWeight: FontWeight.bold),
                             ),
                             Text(
-                              '${state.cartlist[0].cost! * state.cartlist.length} Rs',
+                              '${state.cost.floor()} Rs',
                               style: TextStyle(
                                   fontSize: size.width * 0.04,
                                   fontWeight: FontWeight.w700),
@@ -69,48 +71,59 @@ class ScreenCart extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: size.height * 0.02),
+                    SizedBox(
+                      child: Row(
+                        children: [
+                          const Spacer(),
+                          GestureDetector(
+                            onTap: () {
+                              log('clear button');
+                              BlocProvider.of<CartBloc>(context)
+                                  .add(ClearCartEvent());
+                            },
+                            child: const Text(
+                              'Delete All',
+                              style: TextStyle(color: Colors.blue),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                     Expanded(
                       child: ListView.separated(
+                          physics: const BouncingScrollPhysics(),
                           itemBuilder: (context, index) {
                             return ClipRRect(
-                              borderRadius: BorderRadius.circular(15),
+                              borderRadius: BorderRadius.circular(10),
                               child: Container(
-                                color: Colors.blue.shade100,
+                                color: Colors.blue.shade50,
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Row(
-                                 
                                     children: [
                                       ClipRRect(
                                         borderRadius: BorderRadius.circular(15),
                                         child: SizedBox(
                                           width: size.width * 0.2,
                                           height: size.width * 0.15,
-                                          child: Image.network(
+                                          child: Image.asset(
                                             state.cartlist[index].imageUrl,
                                             fit: BoxFit.cover,
                                             errorBuilder:
                                                 (context, error, stackTrace) {
                                               return const Icon(Icons.error);
                                             },
-                                            loadingBuilder: (context, child,
-                                                loadingProgress) {
-                                              if (loadingProgress == null) {
-                                                return child;
-                                              }
-                                              return const Center(
-                                                child:
-                                                    CircularProgressIndicator(
-                                                  strokeWidth: 1,
-                                                ),
-                                              );
-                                            },
                                           ),
                                         ),
-                                      ),SizedBox(width: 10,),
-                                      Column(crossAxisAlignment: CrossAxisAlignment.start,
+                                      ),
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
-                                            Text(
+                                          Text(
                                             state.cartlist[index].name,
                                             style: const TextStyle(
                                                 fontSize: 18,
@@ -123,11 +136,17 @@ class ScreenCart extends StatelessWidget {
                                                 fontWeight: FontWeight.w500),
                                           ),
                                         ],
-                                      ),Spacer(),
+                                      ),
+                                      const Spacer(),
                                       IconButton(
                                           onPressed: () {
-                                            BlocProvider.of<CartBloc>(context).add(RemoveFromCartEvent(key: state.cartlist[index].id));
-                                           BlocProvider.of<ProductBloc>(context).add(UpdateProducts());
+                                            BlocProvider.of<CartBloc>(context)
+                                                .add(RemoveFromCartEvent(
+                                                    key: state
+                                                        .cartlist[index].id));
+                                            BlocProvider.of<ProductBloc>(
+                                                    context)
+                                                .add(UpdateProducts());
                                           },
                                           icon: const Icon(Icons.delete)),
                                     ],

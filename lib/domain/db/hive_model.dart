@@ -27,7 +27,7 @@ class ProductModel {
   final String imageUrl;
 
   @HiveField(3)
-  final double cost;
+  final num cost;
 
   @HiveField(4)
   bool cartStatus;

@@ -10,40 +10,49 @@ class ScreenMain extends StatelessWidget {
 
   final List _pages = [const ScreenProducts(), const ScreenCart()];
 
-  ValueNotifier<int> _pageIndexNotifier = ValueNotifier(0);
+  final ValueNotifier<int> pageIndexNotifier = ValueNotifier(0);
 
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
-        valueListenable: _pageIndexNotifier,
+        valueListenable: pageIndexNotifier,
         builder: (context, index, child) {
           return Scaffold(
             body: _pages[index],
-            bottomNavigationBar: BottomNavigationBar(
-              currentIndex: index,
-                selectedItemColor: Colors.blue,
-                unselectedItemColor: Colors.grey,
-                onTap: (value) {
-                  _pageIndexNotifier.value = value;
+            bottomNavigationBar: ClipRRect(
+              borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+              child: Container(
+                child: BottomNavigationBar(
+                    backgroundColor: Colors.blue,
+                    currentIndex: index,
+                    selectedItemColor: Colors.white,
+                    unselectedItemColor: Colors.black,
+                    onTap: (value) {
+                      pageIndexNotifier.value = value;
 
-                  if (value == 0) {
-                    BlocProvider.of<ProductBloc>(context).add(LoadProducts());
-                  } else {
-                    BlocProvider.of<CartBloc>(context).add(GetCartItemsEvent());
-                  }
-                },
-                items: const [
-                  BottomNavigationBarItem(
-                      icon: Icon(
-                        Icons.home,
-                      ),
-                      label: 'products'),
-                  BottomNavigationBarItem(
-                      icon: Icon(
-                        Icons.shopping_bag,
-                      ),
-                      label: 'shopping cart')
-                ]),
+                      if (value == 0) {
+                        BlocProvider.of<ProductBloc>(context)
+                            .add(LoadProducts());
+                      } else {
+                        BlocProvider.of<CartBloc>(context)
+                            .add(GetCartItemsEvent());
+                      }
+                    },
+                    items: const [
+                      BottomNavigationBarItem(
+                          icon: Icon(
+                            Icons.home,
+                          ),
+                          label: 'products'),
+                      BottomNavigationBarItem(
+                          icon: Icon(
+                            Icons.shopping_bag,
+                          ),
+                          label: 'shopping cart')
+                    ]),
+              ),
+            ),
           );
         });
   }

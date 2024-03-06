@@ -57,7 +57,7 @@ class ProductModelAdapter extends TypeAdapter<ProductModel> {
       name: fields[0] as String,
       id: fields[1] as int,
       imageUrl: fields[2] as String,
-      cost: fields[3] as double,
+      cost: fields[3] as num,
       cartStatus: fields[4] as bool,
     );
   }

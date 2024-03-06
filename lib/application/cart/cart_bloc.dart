@@ -1,7 +1,5 @@
-import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopping_app/domain/db/hive_model.dart';
-import 'package:shopping_app/domain/model/product_model.dart';
 import 'package:shopping_app/infrastructure/cart/cart_service.dart';
 
 part 'cart_event.dart';
@@ -22,7 +20,10 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     on<GetCartItemsEvent>((event, emit) async {
       try {
         final List<ProductModel> items = await cartService.getDataFromDb();
-        emit(CartSuccess(cartlist: items));
+        final double cost = items.fold(
+            0, (previousValue, element) => previousValue + element.cost);
+
+        emit(CartSuccess(cartlist: items,cost: cost));
       } catch (e) {
         emit(CartFailure(error: 'error happened - B01'));
       }
@@ -35,6 +36,11 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       } catch (e) {
         emit(CartFailure(error: 'error happened B01'));
       }
+    });
+
+    on<ClearCartEvent>((event, emit) async {
+      await cartService.deleteAllCart();
+      emit(CartSuccess(cartlist: []));
     });
   }
 }

@@ -1,10 +1,8 @@
 part of 'cart_bloc.dart';
 
-class CartEvent {}
+abstract class CartEvent {}
 
-class GetCartItemsEvent extends CartEvent {
- 
-}
+class GetCartItemsEvent extends CartEvent {}
 
 class AddToCartEvent extends CartEvent {
   final ProductModel product;
@@ -18,3 +16,5 @@ class RemoveFromCartEvent extends CartEvent {
 
   RemoveFromCartEvent({required this.key});
 }
+
+class ClearCartEvent extends CartEvent {}

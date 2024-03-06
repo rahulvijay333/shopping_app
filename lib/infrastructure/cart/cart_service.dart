@@ -1,14 +1,13 @@
 import 'dart:developer';
 
-import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:shopping_app/domain/db/hive_model.dart';
-import 'package:shopping_app/domain/model/product_model.dart';
 
 class CartService {
   Future<List<ProductModel>> getDataFromDb() async {
     final List<ProductModel> prodlist = [];
     final db = await Hive.openBox<CartHiveDb>(cartDbname);
-    
+
     final lists = db.values.toList();
     for (var prod in lists) {
       prodlist.add(prod.product);
@@ -26,21 +25,26 @@ class CartService {
     }
   }
 
-  deleteFromDb({required int key}) async {
+  Future<void> deleteFromDb({required int key}) async {
     final db = await Hive.openBox<CartHiveDb>(cartDbname);
 
     await db.delete(key);
-    log('product deleted');
   }
 
-  addToCartDb({required int key, required CartHiveDb product}) async {
+  Future<void> addToCartDb(
+      {required int key, required CartHiveDb product}) async {
     try {
       final db = await Hive.openBox<CartHiveDb>(cartDbname);
 
-      db.put(key, product);
-      log('product added');
+      await db.put(key, product);
     } catch (e) {
       log('Data not added');
     }
+  }
+
+  Future<void> deleteAllCart() async {
+    final db = await Hive.openBox<CartHiveDb>(cartDbname);
+
+    await db.clear();
   }
 }

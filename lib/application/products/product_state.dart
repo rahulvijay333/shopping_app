@@ -1,6 +1,6 @@
 part of 'product_bloc.dart';
 
-class ProductState {}
+abstract class ProductState {}
 
 class ProductInitial extends ProductState {}
 

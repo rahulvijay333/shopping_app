@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopping_app/application/cart/cart_bloc.dart';
 import 'package:shopping_app/application/products/product_bloc.dart';
 import 'package:shopping_app/domain/db/hive_model.dart';
-import 'package:shopping_app/domain/model/product_model.dart';
 
 class ProductItemWidget extends StatelessWidget {
   const ProductItemWidget({
@@ -27,29 +26,18 @@ class ProductItemWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Center(
-              child: Container(
-                width: 120,
-              
-                height: 120,
-                child: Image.network(
-                  product.imageUrl,
-                  fit: BoxFit.cover,
-                   errorBuilder:
-                                                (context, error, stackTrace) {
-                                              return const Icon(Icons.error);
-                                            },
-                                            loadingBuilder: (context, child,
-                                                loadingProgress) {
-                                              if (loadingProgress == null) {
-                                                return child;
-                                              }
-                                              return const Center(
-                                                child:
-                                                    CircularProgressIndicator(
-                                                  strokeWidth: 1,
-                                                ),
-                                              );
-                                            },
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: SizedBox(
+                  width: 120,
+                  height: 120,
+                  child: Image.asset(
+                    product.imageUrl,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return const Icon(Icons.error);
+                    },
+                  ),
                 ),
               ),
             ),
@@ -57,7 +45,7 @@ class ProductItemWidget extends StatelessWidget {
               height: 8,
             ),
             Text(
-              product.cost.toString(),
+              "${product.cost.toString()} Rs",
               style: const TextStyle(fontWeight: FontWeight.bold),
             ),
             const SizedBox(
@@ -68,32 +56,36 @@ class ProductItemWidget extends StatelessWidget {
               height: 20,
             ),
             Center(
-              child: product.cartStatus
-                  == false ? Container(
+              child: product.cartStatus == false
+                  ? SizedBox(
                       width: size.width * 0.2,
                       height: 30,
-                      child:
-                          ElevatedButton(onPressed: () {
-                            BlocProvider.of<CartBloc>(context).add(AddToCartEvent(product: product, key: product.id));
-                              BlocProvider.of<ProductBloc>(context).add(UpdateProducts());
-                          }, child: const Text('Add')),
+                      child: ElevatedButton(
+                          onPressed: () {
+                            BlocProvider.of<CartBloc>(context).add(
+                                AddToCartEvent(
+                                    product: product, key: product.id));
+                            BlocProvider.of<ProductBloc>(context)
+                                .add(UpdateProducts());
+                          },
+                          child: const Text('Add')),
                     )
-                  : Container(
-                     width: size.width * 0.25,
+                  : SizedBox(
+                      width: size.width * 0.25,
                       height: 30,
-                    child: TextButton.icon(
-                        onPressed: () {
-                  
-                            
-                      BlocProvider.of<CartBloc>(context).add(RemoveFromCartEvent(key: product.id));
-                        BlocProvider.of<ProductBloc>(context).add(UpdateProducts());
-                        },
-                        icon: Icon(
-                          Icons.delete,
-                          color: Colors.red.shade100,
-                        ),
-                        label: const Text('remove')),
-                  ),
+                      child: TextButton.icon(
+                          onPressed: () {
+                            BlocProvider.of<CartBloc>(context)
+                                .add(RemoveFromCartEvent(key: product.id));
+                            BlocProvider.of<ProductBloc>(context)
+                                .add(UpdateProducts());
+                          },
+                          icon: const Icon(
+                            Icons.delete,
+                            color: Colors.blue,
+                          ),
+                          label: const Text('remove')),
+                    ),
             )
           ],
         ),
