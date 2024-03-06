@@ -15,7 +15,6 @@ class ScreenViewProduct extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-     
       appBar: AppBar(
         title: Text(productName),
         centerTitle: true,
@@ -24,7 +23,10 @@ class ScreenViewProduct extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            Product1Widget(productName: productName, cost: product.cost,),
+            Product1Widget(
+              productName: productName,
+              cost: product.cost,
+            ),
             const SizedBox(
               height: 10,
             ),
@@ -51,28 +53,28 @@ class ScreenViewProduct extends StatelessWidget {
                 if (state is TracksShowSuccess) {
                   if (state.show == true) {
                     return SizedBox(
-                      
                       width: double.maxFinite,
                       height: 40,
                       child: ElevatedButton(
-                          onPressed: () {
-                            BlocProvider.of<CartBloc>(context)
-                                .add(RemoveFromCartEvent(key: product.id));
-                            BlocProvider.of<TrackCartBloc>(context)
-                                .add(TrackAddToCart(product: product));
-                            BlocProvider.of<ProductBloc>(context)
-                                .add(UpdateProducts());
-                          },
-                          child: const Row(mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.delete_outline,
-                                color: Colors.white,
-                              ),
-                              Text('Remove')
-                            ],
-                          ),
-                         ),
+                        onPressed: () {
+                          BlocProvider.of<CartBloc>(context)
+                              .add(RemoveFromCartEvent(key: product.id));
+                          BlocProvider.of<TrackCartBloc>(context)
+                              .add(TrackAddToCart(product: product));
+                          BlocProvider.of<ProductBloc>(context)
+                              .add(UpdateProducts());
+                        },
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.delete_outline,
+                              color: Colors.white,
+                            ),
+                            Text('Remove')
+                          ],
+                        ),
+                      ),
                     );
                   } else {
                     return SizedBox(
@@ -88,7 +90,8 @@ class ScreenViewProduct extends StatelessWidget {
                             BlocProvider.of<ProductBloc>(context)
                                 .add(UpdateProducts());
                           },
-                          child: const Row(mainAxisAlignment: MainAxisAlignment.center,
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Icon(
                                 Icons.add_shopping_cart_outlined,
@@ -104,7 +107,9 @@ class ScreenViewProduct extends StatelessWidget {
                 return Container();
               },
             ),
-            const SizedBox(height: 10,)
+            const SizedBox(
+              height: 10,
+            )
           ],
         ),
       ),
@@ -115,7 +120,8 @@ class ScreenViewProduct extends StatelessWidget {
 class Product1Widget extends StatelessWidget {
   const Product1Widget({
     super.key,
-    required this.productName, required this.cost,
+    required this.productName,
+    required this.cost,
   });
 
   final String productName;
@@ -129,14 +135,16 @@ class Product1Widget extends StatelessWidget {
       width: double.maxFinite,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-      
         children: [
           Center(
               child: Container(
             height: 150,
             width: 200,
             color: Colors.amber,
-            child: Image.asset('assets/laptop.jpg',fit: BoxFit.cover,),
+            child: Image.asset(
+              'assets/laptop.jpg',
+              fit: BoxFit.cover,
+            ),
           )),
           const SizedBox(
             height: 10,
@@ -148,7 +156,7 @@ class Product1Widget extends StatelessWidget {
           const SizedBox(
             height: 5,
           ),
-           Text('${cost.toString()} Rs')
+          Text('${cost.toString()} Rs')
         ],
       ),
     );

@@ -23,13 +23,11 @@ class ScreenProducts extends StatelessWidget {
                 return const Center(
                   child: CircularProgressIndicator(),
                 );
-              } 
-              
-              else if(state is ProductsShowFailure){
-                return Center(child: Text(state.error),);
-              }
-              
-              else if (state is ProductsShowSuccess) {
+              } else if (state is ProductsShowFailure) {
+                return Center(
+                  child: Text(state.error),
+                );
+              } else if (state is ProductsShowSuccess) {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -58,8 +56,7 @@ class ScreenProducts extends StatelessWidget {
                               SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
                             mainAxisExtent: size.height * 0.3,
-                            crossAxisSpacing:
-                                10.0,
+                            crossAxisSpacing: 10.0,
                             mainAxisSpacing: 10.0,
                           ),
                           itemBuilder: (context, index) {
@@ -112,7 +109,8 @@ class CustomAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(20),bottomRight: Radius.circular(20) ),
+      borderRadius: const BorderRadius.only(
+          bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20)),
       child: Container(
         width: size.width,
         height: 90,
