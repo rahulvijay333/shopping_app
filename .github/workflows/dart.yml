@@ -9,19 +9,7 @@ on:
     branches: [ "master" ]
 
 jobs:
-  dart-build:
-    name: Dart Build
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
-
-      - name: Set up Dart SDK
-        uses: dart-lang/setup-dart@9a04e6d73cca37bd455e0608d7e5092f881fd603
-
-      - name: Install Dart dependencies
-        run: dart pub get
+ 
 
   flutter-build:
     name: Flutter Build
